@@ -32,7 +32,7 @@ class API{
     path:_paths[endPoint]
   );
 
-  static Map<EndPoint, String> _paths = {
+  static final Map<EndPoint, String> _paths = {
     EndPoint.cases: "cases",
     EndPoint.casesSuspended: "casesSuspended",
     EndPoint.casesConfirmed: "casesConfirmed",

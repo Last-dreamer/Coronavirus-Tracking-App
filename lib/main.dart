@@ -43,14 +43,17 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   String _accessToken = '';
+  int cases = 0;
 
   void _incrementCounter() async {
 
     final  apiService = APIService(API.fromSandBox());
     final accessToken = await apiService.getAccessToken();
+    final mcases = await apiService.getEndpointData(accessToken: accessToken, endPoint: EndPoint.cases);
 
     setState(() {
       _accessToken = accessToken;
+      cases = mcases;
     });
   }
 
@@ -95,6 +98,12 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_accessToken',
               style: Theme.of(context).textTheme.headline4,
             ),
+
+            if(cases != null)
+              Text(
+                '$cases',
+                style: Theme.of(context).textTheme.headline4,
+              ),
           ],
         ),
       ),
