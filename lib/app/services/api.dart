@@ -26,7 +26,7 @@ class API{
   );
 
 
-  Uri endPoints(EndPoint endPoint) => Uri(
+  Uri endPointsUri(EndPoint endPoint) => Uri(
     scheme: "https",
     host: host,
     path:_paths[endPoint]

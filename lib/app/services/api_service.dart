@@ -31,14 +31,18 @@ class APIService {
     required EndPoint endPoint
 }) async {
 
-    final uri =  api.endPoints(endPoint);
-    final response = await http.post(uri, headers: {"Authorization": "Bearer $accessToken"});
+    final uri =  api.endPointsUri(endPoint);
+    final response = await http.get(uri, headers: {"Authorization": "Bearer $accessToken"});
 
+    print("res ${response.statusCode}");
     if(response.statusCode == 200){
-      List<dynamic> data = json.decode(response.body);
+
+      final List<dynamic> data = json.decode(response.body);
+
+      print("res ${data}");
       if(data.isNotEmpty){
-        Map<String, dynamic> endPointData = data[0];
-        String responseJsonKey =  endPointData[_responseJsonKeys];
+       final Map<String, dynamic> endPointData = data[0];
+       final String responseJsonKey =  _responseJsonKeys![endPoint] ?? "";
       final int result = endPointData[responseJsonKey];
       if(result != null){
         return result;
