@@ -13,6 +13,7 @@ class APIService {
     final response = await http.post(api.tokenUri(),
         headers: {"Authorization": "Basic ${api.apiKey}"});
 
+    print("resp ${response}");
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
       final accessToken = data['access_token'];
@@ -39,7 +40,7 @@ class APIService {
 
       final List<dynamic> data = json.decode(response.body);
 
-      print("res ${data}");
+      print("res $data");
       if(data.isNotEmpty){
        final Map<String, dynamic> endPointData = data[0];
        final String responseJsonKey =  _responseJsonKeys![endPoint] ?? "";
@@ -50,7 +51,7 @@ class APIService {
     }
 
     print(
-        "Request ${api.apiKey} failed \n Response: ${response.statusCode} ${response.reasonPhrase}");
+        "Request 2 ${api.apiKey} failed \n Response: ${response.statusCode} ${response.reasonPhrase}");
     throw response;
 
   }
