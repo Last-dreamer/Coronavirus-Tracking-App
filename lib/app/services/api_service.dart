@@ -13,7 +13,7 @@ class APIService {
     final response = await http.post(api.tokenUri(),
         headers: {"Authorization": "Basic ${api.apiKey}"});
 
-    print("resp ${response}");
+    print("resp $response");
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
       final accessToken = data['access_token'];
@@ -35,11 +35,9 @@ class APIService {
     final uri =  api.endPointsUri(endPoint);
     final response = await http.get(uri, headers: {"Authorization": "Bearer $accessToken"});
 
-    print("res ${response.statusCode}");
+    print("res mine ${response.statusCode}");
     if(response.statusCode == 200){
-
       final List<dynamic> data = json.decode(response.body);
-
       print("res $data");
       if(data.isNotEmpty){
        final Map<String, dynamic> endPointData = data[0];
@@ -53,13 +51,11 @@ class APIService {
     print(
         "Request 2 ${api.apiKey} failed \n Response: ${response.statusCode} ${response.reasonPhrase}");
     throw response;
-
   }
 
 
   static final Map<EndPoint, String>? _responseJsonKeys = {
     EndPoint.cases: "cases",
-    EndPoint.casesSuspended: "data",
     EndPoint.casesConfirmed: "data",
     EndPoint.deaths: "data",
     EndPoint.recovered: "data"

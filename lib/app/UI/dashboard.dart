@@ -1,6 +1,6 @@
-
 import 'package:coronavirus_tracking_app/app/UI/endpoint_card.dart';
 import 'package:coronavirus_tracking_app/app/repositories/data_repository.dart';
+import 'package:coronavirus_tracking_app/app/repositories/endpoints_data.dart';
 import 'package:coronavirus_tracking_app/app/services/api.dart';
 import 'package:coronavirus_tracking_app/app/services/api_service.dart';
 import 'package:flutter/material.dart';
@@ -14,33 +14,53 @@ class DashBoard extends StatefulWidget {
 }
 
 class _DashBoardState extends State<DashBoard> {
-  String _cases = "";
+   EndPointsData? endPointsData;
 
   @override
   void initState() {
     _updateData();
+    print("String data $endPointsData");
 
     super.initState();
   }
 
-
-
   Future<void> _updateData() async {
-    final dataRep =  Provider.of<DataRepository>(context, listen: false);
-    final cases = await dataRep.getTheEndpoint(EndPoint.cases);
-    print("checking ${cases}");
+
+    print("String data  2 $endPointsData");
+    final dataRep = Provider.of<DataRepository>(context, listen: false);
+
+
+    // final mine  = await dataRep.getTheEndpoint(EndPoint.recovered);
+    // print("mine data  $mine");
+    final cases = await dataRep.getAllEndpoint();
+
+
+    print("checking $cases");
     setState(() {
-      _cases = cases.toString();
+      endPointsData = cases;
     });
+
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Corona Tracker"), centerTitle: true,),
-      body: ListView(
-        children:  [
-          EndPointCard(endPoint: EndPoint.cases, value:_cases),
-        ],
+      appBar: AppBar(
+        title: const Text("Corona Tracker"),
+        centerTitle: true,
+      ),
+      body: RefreshIndicator(
+        onRefresh: _updateData,
+        child: ListView(
+          children: [
+            const SizedBox(height: 10,),
+            for (var endpoints in EndPoint.values)
+
+                EndPointCard(
+                    endPoint: endpoints,
+                    value: endPointsData?.value[endpoints].toString() ?? ''),
+          ],
+        ),
       ),
     );
   }

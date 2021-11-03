@@ -4,7 +4,6 @@ import 'package:coronavirus_tracking_app/app/services/api_keys.dart';
 
 enum EndPoint {
   cases,
-  casesSuspended,
   casesConfirmed,
   deaths,
   recovered
@@ -34,7 +33,6 @@ class API{
 
   static final Map<EndPoint, String> _paths = {
     EndPoint.cases: "cases",
-    EndPoint.casesSuspended: "casesSuspended",
     EndPoint.casesConfirmed: "casesConfirmed",
     EndPoint.deaths: "deaths",
     EndPoint.recovered: "recovered"
