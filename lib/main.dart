@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
     return Provider<DataRepository>(
       create: (_) => DataRepository(apiService: APIService(API.fromSandBox())),
       child: MaterialApp(
-        debugShowCheckedModeBanner: false,
+        debugShowCheckedModeBanner: false,  
         title: 'Covid 19 Tracking App',
         theme: ThemeData.dark().copyWith(
           scaffoldBackgroundColor: const Color(0xFF101010),

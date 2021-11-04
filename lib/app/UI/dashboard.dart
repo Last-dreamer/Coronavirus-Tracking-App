@@ -4,7 +4,10 @@ import 'package:coronavirus_tracking_app/app/repositories/endpoints_data.dart';
 import 'package:coronavirus_tracking_app/app/services/api.dart';
 import 'package:coronavirus_tracking_app/app/services/api_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+
+import 'latest_status_update.dart';
 
 class DashBoard extends StatefulWidget {
   const DashBoard({Key? key}) : super(key: key);
@@ -44,8 +47,10 @@ class _DashBoardState extends State<DashBoard> {
 
   @override
   Widget build(BuildContext context) {
+    final formatter = LatestStatusUpdateFormatter(latestUpdate: endPointsData?.value[EndPoint.cases]?.date ?? DateTime.now());
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: const Color(0xFF222222),
         title: const Text("Corona Tracker"),
         centerTitle: true,
       ),
@@ -54,11 +59,13 @@ class _DashBoardState extends State<DashBoard> {
         child: ListView(
           children: [
             const SizedBox(height: 10,),
-            for (var endpoints in EndPoint.values)
 
+            LatestStatusUpdate(text: formatter.latestStatusUpdateText().toString(),),
+
+            for (var endpoints in EndPoint.values)
                 EndPointCard(
                     endPoint: endpoints,
-                    value: endPointsData?.value[endpoints].toString() ?? ''),
+                    value: endPointsData?.value[endpoints]?.value.toString() ?? ''),
           ],
         ),
       ),

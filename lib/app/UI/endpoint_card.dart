@@ -1,6 +1,7 @@
 
 import 'package:coronavirus_tracking_app/app/services/api.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 
 class EndPointCardData{
@@ -24,6 +25,9 @@ class EndPointCard extends StatelessWidget {
     EndPoint.deaths: EndPointCardData(title: "Deaths", assetsName: "assets/death.png", color: const Color(0xFFE40000)),
     EndPoint.recovered: EndPointCardData(title: "Recovered", assetsName: "assets/patient.png", color: const Color(0xFF704901)),
   };
+
+
+
   @override
   Widget build(BuildContext context) {
     var cardData = _cardTitle[endPoint];
@@ -38,6 +42,7 @@ class EndPointCard extends StatelessWidget {
 
             Text(cardData!.title, style: Theme.of(context).textTheme.headline6!.copyWith(color: cardData.color),),
             const SizedBox(height: 10,),
+
             SizedBox(
               height: 60,
               child: Row(
@@ -45,7 +50,7 @@ class EndPointCard extends StatelessWidget {
                 children: [
                   Image.asset(cardData.assetsName, color: cardData.color,),
 
-                  Text(value, style: Theme.of(context).textTheme.headline6!.copyWith(color: cardData.color, fontWeight: FontWeight.w600),)
+                  Text(NumberFormat("#,###,###").format(int.parse(value)), style: Theme.of(context).textTheme.headline6!.copyWith(color: cardData.color, fontWeight: FontWeight.w600),)
                 ],
               ),
             ),

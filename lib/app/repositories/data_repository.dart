@@ -1,6 +1,7 @@
 import 'package:coronavirus_tracking_app/app/repositories/endpoints_data.dart';
 import 'package:coronavirus_tracking_app/app/services/api.dart';
 import 'package:coronavirus_tracking_app/app/services/api_service.dart';
+import 'package:coronavirus_tracking_app/app/services/endpoint_data.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart';
 
@@ -35,8 +36,8 @@ class DataRepository {
   // calling all endpoints
 
   // getting a single endpoint
-  Future<int> getTheEndpoint(EndPoint endPoint) async =>
-      await _getDataRefreshingToken<int>(
+  Future<EndPointData> getTheEndpoint(EndPoint endPoint) async =>
+      await _getDataRefreshingToken<EndPointData>(
         getData: () => apiService.getEndpointData(
             accessToken: _accessToken.toString(), endPoint: endPoint),
       );
@@ -67,7 +68,6 @@ class DataRepository {
     var value = await Future.wait([
       apiService.getEndpointData(
           accessToken: _accessToken.toString(), endPoint: EndPoint.cases),
-
       apiService.getEndpointData(
           accessToken: _accessToken.toString(),
           endPoint: EndPoint.casesConfirmed),
@@ -76,13 +76,12 @@ class DataRepository {
       apiService.getEndpointData(
           accessToken: _accessToken.toString(), endPoint: EndPoint.recovered),
     ]);
-    print("value ${value}");
+    print("value $value");
     return EndPointsData(value: {
-      EndPoint.cases: value[0].toString(),
-
-      EndPoint.casesConfirmed: value[1].toString(),
-      EndPoint.deaths: value[2].toString(),
-      EndPoint.recovered: value[3].toString(),
+      EndPoint.cases: value[0],
+      EndPoint.casesConfirmed: value[1],
+      EndPoint.deaths: value[2],
+      EndPoint.recovered: value[3],
     });
   }
 }
