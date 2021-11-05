@@ -1,0 +1,10 @@
+
+
+# @baseUrl = https://ncov2019-admin.firebaseapp.com
+
+# @authorization = a221e3e661dfda2220989d0ebddc361d06cafd84fc9fe22141f6ff894dfbad0c 
+
+# POST {{baseUrl}}/token
+# Authorization: Basic {{authorization}}
+
+GET https://demo.traccar.org/api/devices

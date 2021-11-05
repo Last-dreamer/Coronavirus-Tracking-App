@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:coronavirus_tracking_app/app/UI/endpoint_card.dart';
+import 'package:coronavirus_tracking_app/app/UI/show_alert_dialog.dart';
 import 'package:coronavirus_tracking_app/app/repositories/data_repository.dart';
 import 'package:coronavirus_tracking_app/app/repositories/endpoints_data.dart';
 import 'package:coronavirus_tracking_app/app/services/api.dart';
@@ -29,19 +32,26 @@ class _DashBoardState extends State<DashBoard> {
 
   Future<void> _updateData() async {
 
-    print("String data  2 $endPointsData");
-    final dataRep = Provider.of<DataRepository>(context, listen: false);
+    try {
+      print("String data  2 $endPointsData");
+      final dataRep = Provider.of<DataRepository>(context, listen: false);
 
 
-    // final mine  = await dataRep.getTheEndpoint(EndPoint.recovered);
-    // print("mine data  $mine");
-    final cases = await dataRep.getAllEndpoint();
+      // final mine  = await dataRep.getTheEndpoint(EndPoint.recovered);
+      // print("mine data  $mine");
+      final cases = await dataRep.getAllEndpoint();
 
 
-    print("checking $cases");
-    setState(() {
-      endPointsData = cases;
-    });
+      print("checking $cases");
+      setState(() {
+        endPointsData = cases;
+      });
+    } on SocketException catch(_) {
+      showAlertDialog(context,
+          "Connection Error",
+          "could not retrieve data, please try again later",
+          "OK");
+    }
 
   }
 
@@ -65,7 +75,7 @@ class _DashBoardState extends State<DashBoard> {
             for (var endpoints in EndPoint.values)
                 EndPointCard(
                     endPoint: endpoints,
-                    value: endPointsData?.value[endpoints]?.value.toString() ?? ''),
+                    value: endPointsData?.value[endpoints]?.value.toString()),
           ],
         ),
       ),

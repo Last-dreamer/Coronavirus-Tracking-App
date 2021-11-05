@@ -5,7 +5,7 @@ import 'package:coronavirus_tracking_app/app/services/endpoint_data.dart';
 class EndPointsData {
   final Map<EndPoint, EndPointData> value;
 
-  EndPointsData({ required this.value });
+  EndPointsData({ required this.value});
 
   // getters
   EndPointData? get cases => value[EndPoint.cases];
